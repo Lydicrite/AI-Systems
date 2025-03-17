@@ -55,9 +55,17 @@ public:
     void SetTargetColumn(const std::string& columnName);
     void SetTargetColumn(size_t columnIndex);
     size_t GetTargetColumn() const;
+
     std::unordered_map<std::string, size_t> GetClassDistribution() const;
+    std::unordered_map<std::string, std::unordered_map<std::string, size_t>> 
+        GetClassDistributionForFeature(size_t featureIndex) const;
+
     double CalculateEntropy() const;
     double GetTargetEntropy() const;
 
     DTDataset GetFeatureValueSubset(size_t featureColumn, const std::string& value) const;
+    DTDataset GetSubsetWithoutColumn(size_t columnIndex) const;
+    DTDataset GetSubsetWithoutColumn(const std::string& columnName) const;
+    DTDataset GetSubsetWithoutRow(size_t rowIndex) const;
+    DTDataset GetSubsetWithoutRows(size_t startIndex, size_t endIndex) const;
 };

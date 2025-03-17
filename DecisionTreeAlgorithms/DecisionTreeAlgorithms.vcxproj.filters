@@ -59,5 +59,8 @@
     <ClCompile Include="ID3.cpp">
       <Filter>Исходные файлы\DTBuildAlgorithms</Filter>
     </ClCompile>
+    <ClCompile Include="DecisionTree.cpp">
+      <Filter>Исходные файлы\DecisionTree</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

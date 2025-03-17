@@ -351,6 +351,7 @@ void DTDataset::SetTargetColumn(const std::string& columnName) {
 void DTDataset::SetTargetColumn(size_t columnIndex) {
     if (columnIndex >= _numColumns)
         throw std::out_of_range("Некорректный индекс целевого столбца");
+
     _targetColumn = columnIndex;
     _targetEntropy = CalculateEntropy();
 }
@@ -359,6 +360,8 @@ size_t DTDataset::GetTargetColumn() const {
     return _targetColumn; 
 }
 
+
+
 std::unordered_map<std::string, size_t> DTDataset::GetClassDistribution() const {
     std::unordered_map<std::string, size_t> dist;
     for (const auto& row : _data) {
@@ -366,6 +369,23 @@ std::unordered_map<std::string, size_t> DTDataset::GetClassDistribution() const 
     }
     return dist;
 }
+
+std::unordered_map<std::string, std::unordered_map<std::string, size_t>>
+DTDataset::GetClassDistributionForFeature(size_t featureIndex) const {
+    if (featureIndex >= _numColumns) {
+        throw std::out_of_range("Некорректный индекс признака");
+    }
+
+    std::unordered_map<std::string, std::unordered_map<std::string, size_t>> dist;
+    for (const auto& row : _data) {
+        const std::string& featureValue = row[featureIndex];
+        const std::string& targetValue = row[_targetColumn];
+        dist[featureValue][targetValue]++;
+    }
+    return dist;
+}
+
+
 
 double DTDataset::CalculateEntropy() const {
     auto dist = GetClassDistribution();
@@ -424,6 +444,79 @@ DTDataset DTDataset::GetFeatureValueSubset(size_t featureColumn, const std::stri
             << _headers[featureColumn] << "\" имел бы значение \"" << value << "\"\nВозможно, "
             << "неверно указан индекс признака или его искомое значение";
         throw std::invalid_argument(ss.str());
+    }
+
+    return subset;
+}
+
+DTDataset DTDataset::GetSubsetWithoutColumn(size_t columnIndex) const {
+    if (columnIndex >= _numColumns) {
+        std::stringstream ss;
+        ss << "Индекс столбца " << columnIndex << " выходит за пределы [0, " << (_numColumns - 1) << "]";
+        throw std::out_of_range(ss.str());
+    }
+
+    DTDataset subset;
+    subset._headers = _headers;
+    subset._numColumns = _numColumns - 1;
+    subset._headerLoaded = _headerLoaded;
+
+    // Удаляем заголовок, если он есть
+    if (_headerLoaded) {
+        subset._headers.erase(subset._headers.begin() + columnIndex);
+    }
+
+    // Копируем данные без указанного столбца
+    for (const auto& row : _data) {
+        std::vector<std::string> newRow = row;
+        newRow.erase(newRow.begin() + columnIndex);
+        subset._data.push_back(newRow);
+    }
+
+    if (subset._data.empty()) {
+        throw std::runtime_error("Результирующий набор данных пуст");
+    }
+
+    return subset;
+}
+
+DTDataset DTDataset::GetSubsetWithoutColumn(const std::string& columnName) const {
+    return GetSubsetWithoutColumn(GetColumnIndex(columnName));
+}
+
+DTDataset DTDataset::GetSubsetWithoutRow(size_t rowIndex) const {
+    if (rowIndex >= _data.size()) {
+        std::stringstream ss;
+        ss << "Индекс строки " << rowIndex << " выходит за пределы [0, " << (_data.size() - 1) << "]";
+        throw std::out_of_range(ss.str());
+    }
+
+    DTDataset subset = *this;
+    subset._data.erase(subset._data.begin() + rowIndex);
+
+    if (subset._data.empty()) {
+        throw std::runtime_error("Результирующий набор данных пуст");
+    }
+
+    return subset;
+}
+
+DTDataset DTDataset::GetSubsetWithoutRows(size_t startIndex, size_t endIndex) const {
+    if (startIndex > endIndex || endIndex >= _data.size()) {
+        std::stringstream ss;
+        ss << "Некорректный диапазон [" << startIndex << ", " << endIndex
+            << "]. Допустимо [0, " << (_data.size() - 1) << "]";
+        throw std::out_of_range(ss.str());
+    }
+
+    DTDataset subset = *this;
+    subset._data.erase(
+        subset._data.begin() + startIndex,
+        subset._data.begin() + endIndex + 1
+    );
+
+    if (subset._data.empty()) {
+        throw std::runtime_error("Результирующий набор данных пуст");
     }
 
     return subset;

@@ -1,8 +1,5 @@
 ﻿#include <iomanip>
-#include <windows.h>
 #include <iostream>
-#include <io.h>
-#include <fcntl.h>
 #include <fstream>
 #include <sstream>
 
@@ -20,7 +17,7 @@ int wmain(int argc, wchar_t* argv[], wchar_t* envp[]) {
         dataset.SetTargetColumn("Play");
         std::cout << "\nЭнтропия признака \"Play\": " << dataset.CalculateEntropy() << '\n';
 
-        std::cout << "\n\n-------------------- Построение дерева решений с помощью ID3 и работа с ним --------------------\n";
+        std::cout << "\n\n-------------------- Построение дерева решений с помощью ID3 и работа с ним --------------------\n\n";
         {
             // Построение дерева по ID3
             DecisionTree tree = ID3::Train(dataset);
@@ -28,12 +25,17 @@ int wmain(int argc, wchar_t* argv[], wchar_t* envp[]) {
             // Тест "предсказания"
             std::vector<std::string> sample = { "Sunny", "Cool", "Normal", "Weak" };
             auto prediction = tree.Predict(sample);
-            std::cout << "Предсказание целевого признака \"Play\" "
+            std::cout << "Предсказания целевого признака \"Play\" "
                 << "по данным {\"Sunny\", \"Cool\", \"Normal\", \"Weak\"}: "
-                << "\"" << prediction << "\"\n";
+                << "\"" << prediction << "\"\n\n";
 
+            // Тест всех "предсказания"
+            std::cout << "Предсказания целевого признака \"Play\" по всему исходному набору данных: \n";
+            auto testDataset = dataset;
+            tree.Predict(testDataset);
+            
             // Вывод структуры
-            std::cout << "\nСтруктура дерева:\n\n";
+            std::cout << "\n\n\nСтруктура дерева:\n\n";
             tree.PrintTree();
         }
     }

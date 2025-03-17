@@ -11,16 +11,43 @@ double ID3::CalculateInformationGain
     size_t featureIndex
 ) {
     double totalEntropy = dataset.CalculateEntropy();
-    auto uniqueValues = dataset.GetUniqueValues(featureIndex);
-    double weightedEntropy = 0.0;
+    size_t totalRows = dataset.RowCount();
 
-    for (const auto& value : uniqueValues) {
-        DTDataset subset = dataset.GetFeatureValueSubset(featureIndex, value);
-        double prob = static_cast<double>(subset.RowCount()) / dataset.RowCount();
-        weightedEntropy += prob * subset.CalculateEntropy();
+    // Получаем распределение классов для каждого значения признака
+    auto classDist = dataset.GetClassDistributionForFeature(featureIndex);
+
+    double weightedEntropy = 0.0;
+    std::cout << "\n[Обработка признака] " << dataset.GetHeaders()[featureIndex]
+        << "\nОбщая энтропия: " << totalEntropy << std::endl;
+
+    for (const auto& [featureValue, targetCounts] : classDist) {
+        size_t totalVCount = 0;
+        for (const auto& [_, count] : targetCounts) {
+            totalVCount += count;
+        } 
+
+        // Расчёт энтропии для подмножества
+        double subsetEntropy = 0.0;
+        for (const auto& [targetValue, count] : targetCounts) {
+            double p = static_cast<double>(count) / totalVCount;
+            if (p > 0) subsetEntropy -= p * log2(p);
+        }
+
+        double prob = static_cast<double>(totalVCount) / totalRows;
+        weightedEntropy += prob * subsetEntropy;
+
+        // Вывод информации
+        std::cout << "  * Значение: " << featureValue
+            << " | Примеров: " << totalVCount
+            << " | Вероятность: " << prob
+            << " | Энтропия: " << subsetEntropy << std::endl;
     }
 
-    return totalEntropy - weightedEntropy;
+    double gain = totalEntropy - weightedEntropy;
+    std::cout << "Взвешенная энтропия: " << weightedEntropy
+        << "\nИнформационный прирост: " << gain << "\n" << std::endl;
+
+    return gain;
 }
 
 size_t ID3::FindBestFeature(const DTDataset& dataset) {
@@ -29,7 +56,9 @@ size_t ID3::FindBestFeature(const DTDataset& dataset) {
     size_t targetCol = dataset.GetTargetColumn();
 
     for (size_t i = 0; i < dataset.ColumnCount(); ++i) {
-        if (i == targetCol) continue; // Пропускаем целевой столбец
+        if (i == targetCol) 
+            continue;
+
         double gain = CalculateInformationGain(dataset, i);
         if (gain > maxGain) {
             maxGain = gain;
@@ -95,5 +124,6 @@ DecisionTree ID3::Train(const DTDataset& dataset) {
     tree.SetHeaders(dataset.GetHeaders());
     auto root = BuildTree(dataset);
     tree.SetRoot(std::move(root));
+    tree.SetTargetColumn(dataset.GetTargetColumn());
     return tree;
 }

@@ -2,33 +2,25 @@
 #include "Node.h"
 #include "DecisionNode.h"
 #include "LeafNode.h"
+#include "DTDataset.h"
 
 class DecisionTree {
 private:
     std::unique_ptr<Node> _root;
     std::vector<std::string> _headers;
+    size_t _targetColumn = 0;
+
+    void PrintPredictionsTable(const std::vector<std::vector<std::string>>& data, const std::vector<std::string>& predictions) const;
 
 public:
-    void SetRoot(std::unique_ptr<Node> root) {
-        _root = std::move(root);
-    }
+    void SetRoot(std::unique_ptr<Node> root);
+    void SetHeaders(const std::vector<std::string>& headers);
+    void SetTargetColumn(size_t targetColumn);
 
-    void SetHeaders(const std::vector<std::string>& headers) {
-        _headers = headers;
-    }
+    std::string Predict(const std::vector<std::string>& sample) const;
+    void Predict(const std::vector<std::vector<std::string>>& testData) const;
+    void Predict(const DTDataset& testDataset) const;
 
-    std::string Predict(const std::vector<std::string>& sample) const {
-        if (!_root) 
-            throw std::logic_error("Дерево не обучено");
-
-        return _root->Predict(sample, _headers);
-    }
-
-    void PrintTree() const {
-        if (_root) 
-            _root->Print(0);
-        else 
-            std::cout << "Дерево пустое\n";
-    }
+    void PrintTree() const;
 };
 
