@@ -143,6 +143,19 @@ size_t DTDataset::GetColumnIndex(const std::string& columnName) const {
     return static_cast<size_t>(it - _headers.begin());
 }
 
+std::string DTDataset::GetColumnHeader(size_t columnIndex) const {
+    if (columnIndex >= _numColumns) {
+        std::stringstream ss;
+        ss << "Некорректный индекс столбца: " << columnIndex
+            << " (допустимо 0-" << (_numColumns - 1) << ")";
+        throw std::out_of_range(ss.str());
+    }
+
+    if (!_headerLoaded)
+        return "Column " + columnIndex;
+
+    return _headers[columnIndex];
+}
 
 
 void DTDataset::PrintSummary(size_t previewRows = 5) const {
@@ -360,6 +373,13 @@ size_t DTDataset::GetTargetColumn() const {
     return _targetColumn; 
 }
 
+std::string DTDataset::GetTargetColumnHeader() const {
+    if (!_headerLoaded)
+        return "Column " + _targetColumn;
+
+    return _headers[_targetColumn];
+}
+
 
 
 std::unordered_map<std::string, size_t> DTDataset::GetClassDistribution() const {
@@ -424,18 +444,19 @@ DTDataset DTDataset::GetFeatureValueSubset(size_t featureColumn, const std::stri
     subset._numColumns = _numColumns - 1;
     subset._headerLoaded = _headerLoaded;
 
-    // Удаляем заголовок признака, если заголовки загружены
-    if (_headerLoaded) {
-        subset._headers.erase(subset._headers.begin() + featureColumn);
-    }
-
-    // Копируем данные, исключая выбранный столбец
+    // Создаём подмножество, удаляя признак featureColumn
     for (const auto& row : _data) {
         if (row[featureColumn] == value) {
             std::vector<std::string> newRow = row;
             newRow.erase(newRow.begin() + featureColumn);
             subset._data.push_back(newRow);
         }
+    }
+
+    // Обновляем заголовки
+    if (_headerLoaded) {
+        subset._headers = _headers;
+        subset._headers.erase(subset._headers.begin() + featureColumn);
     }
 
     if (subset._data.size() == 0) {

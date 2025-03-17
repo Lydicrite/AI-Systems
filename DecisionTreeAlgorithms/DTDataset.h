@@ -32,6 +32,7 @@ public:
     size_t RowCount() const;
     size_t ColumnCount() const;
     size_t GetColumnIndex(const std::string& columnName) const;
+    std::string GetColumnHeader(size_t columnIndex) const;
 
     void PrintSummary(size_t previewRows) const;
     void PrintDataSlice(size_t previewRows) const;
@@ -55,6 +56,7 @@ public:
     void SetTargetColumn(const std::string& columnName);
     void SetTargetColumn(size_t columnIndex);
     size_t GetTargetColumn() const;
+    std::string GetTargetColumnHeader() const;
 
     std::unordered_map<std::string, size_t> GetClassDistribution() const;
     std::unordered_map<std::string, std::unordered_map<std::string, size_t>> 

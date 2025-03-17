@@ -22,6 +22,9 @@ int wmain(int argc, wchar_t* argv[], wchar_t* envp[]) {
             // Построение дерева по ID3
             DecisionTree tree = ID3::Train(dataset);
 
+            // Вывод построения по ID3
+            std::cout << tree.GetBuildingProcessDescr();
+
             // Тест "предсказания"
             std::vector<std::string> sample = { "Sunny", "Cool", "Normal", "Weak" };
             auto prediction = tree.Predict(sample);

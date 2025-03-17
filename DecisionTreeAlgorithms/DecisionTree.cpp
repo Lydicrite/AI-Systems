@@ -146,6 +146,19 @@ void DecisionTree::Predict(const DTDataset& testDataset) const {
 
 
 
+std::ostringstream& DecisionTree::GetBuildingProcessOSS() {
+    return _buildingProcessOSS;
+}
+
+void DecisionTree::ClearBuildingProcessOSS() {
+    _buildingProcessOSS.str("");
+    _buildingProcessOSS.clear();
+}
+
+std::string DecisionTree::GetBuildingProcessDescr() const {
+    return _buildingProcessOSS.str();
+}
+
 void DecisionTree::PrintTree() const {
     if (_root)
         _root->Print(0, false, "");
