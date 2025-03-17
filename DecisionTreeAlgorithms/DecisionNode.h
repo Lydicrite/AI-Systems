@@ -3,13 +3,12 @@
 
 class DecisionNode : public Node {
 private:
-    std::string _index;
     std::string _featureName;
     std::unordered_map<std::string, std::unique_ptr<Node>> _children;
 
 public:
-    DecisionNode(const std::string& featureName, const std::string& index)
-        : _featureName(featureName), _index(index) {
+    DecisionNode(const std::string& featureName)
+        : _featureName(featureName) {
     }
 
     void AddChild(const std::string& value, std::unique_ptr<Node> child);

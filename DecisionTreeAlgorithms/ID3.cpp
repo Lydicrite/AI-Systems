@@ -70,31 +70,23 @@ size_t ID3::FindBestFeature(const DTDataset& dataset) {
 }
 
 std::unique_ptr<Node> ID3::BuildTree(const DTDataset& dataset) {
-    return BuildTreeInternal(dataset, "", 1);
+    return BuildTreeInternal(dataset, 1);
 }
 
-std::unique_ptr<Node> ID3::BuildTreeInternal(const DTDataset& dataset, const std::string& parentIndex, int childNumber) {
-    std::string currentIndex;
-    if (parentIndex.empty()) {
-        currentIndex = std::to_string(childNumber);
-    }
-    else {
-        currentIndex = parentIndex + "." + std::to_string(childNumber);
-    }
-
+std::unique_ptr<Node> ID3::BuildTreeInternal(const DTDataset& dataset, int childNumber) {
     // Условие 1: Все примеры принадлежат одному классу
     if (AllSameClass(dataset)) {
-        return std::make_unique<LeafNode>(dataset.GetClassDistribution().begin()->first, currentIndex);
+        return std::make_unique<LeafNode>(dataset.GetClassDistribution().begin()->first);
     }
 
     // Условие 2: Нет признаков для разбиения (остался только целевой)
     if (dataset.ColumnCount() <= 1) { // Учитываем, что целевой столбец не удаляется
-        return std::make_unique<LeafNode>("(неопределено)", currentIndex);
+        return std::make_unique<LeafNode>("(неопределено)");
     }
 
     size_t bestFeature = FindBestFeature(dataset);
     std::string bestFeatureName = dataset.GetHeaders()[bestFeature];
-    auto node = std::make_unique<DecisionNode>(bestFeatureName, currentIndex);
+    auto node = std::make_unique<DecisionNode>(bestFeatureName);
 
     auto uniqueValues = dataset.GetUniqueValues(bestFeature);
     std::vector<std::string> sortedValues(uniqueValues.begin(), uniqueValues.end());
@@ -105,13 +97,13 @@ std::unique_ptr<Node> ID3::BuildTreeInternal(const DTDataset& dataset, const std
         try {
             DTDataset subset = dataset.GetFeatureValueSubset(bestFeature, value);
             subset.SetTargetColumn((dataset.GetTargetColumn() > bestFeature) ? dataset.GetTargetColumn() - 1 : dataset.GetTargetColumn());
-            auto child = BuildTreeInternal(subset, currentIndex, childNum);
+            auto child = BuildTreeInternal(subset, childNum);
             node->AddChild(value, std::move(child));
             childNum++;
         }
         catch (const std::invalid_argument&) {
             auto classDist = dataset.GetClassDistribution();
-            node->AddChild(value, std::make_unique<LeafNode>(classDist.begin()->first, currentIndex + "." + std::to_string(childNum)));
+            node->AddChild(value, std::make_unique<LeafNode>(classDist.begin()->first));
             childNum++;
         }
     }

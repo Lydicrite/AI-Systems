@@ -7,7 +7,7 @@ private:
     static bool AllSameClass(const DTDataset& dataset);
     static double CalculateInformationGain(const DTDataset& dataset, size_t featureIndex);
     static size_t FindBestFeature(const DTDataset& dataset);
-    static std::unique_ptr<Node> BuildTreeInternal(const DTDataset& dataset, const std::string& parentIndex, int childNumber);
+    static std::unique_ptr<Node> BuildTreeInternal(const DTDataset& dataset, int childNumber);
 
     DTDataset _trainDataset;
     std::vector<std::string> _originalHeaders;
