@@ -22,6 +22,9 @@
     <Filter Include="Исходные файлы\DTBuildAlgorithms">
       <UniqueIdentifier>{4d55ab0a-8b12-4d3c-a77c-051da2def9f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\DTBuildAlgorithms">
+      <UniqueIdentifier>{837433fa-8128-4a3c-a9ea-285432d71196}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DTDataset.h">
@@ -40,7 +43,7 @@
       <Filter>Файлы заголовков\DecisionTree</Filter>
     </ClInclude>
     <ClInclude Include="ID3.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\DTBuildAlgorithms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

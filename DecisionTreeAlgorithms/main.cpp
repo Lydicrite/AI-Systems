@@ -12,7 +12,7 @@ int wmain(int argc, wchar_t* argv[], wchar_t* envp[]) {
     try {
         // Создание набора данных из CSV-файла
         DTDataset dataset;
-        dataset.LoadFromFile("Datasets\\weather_data.csv", ';', true);
+        dataset.LoadFromFile("datasets\\weather_data.csv", ';', true);
         dataset.PrintSummary(0);
         dataset.SetTargetColumn("Play");
         std::cout << "\nЭнтропия признака \"Play\": " << dataset.CalculateEntropy() << '\n';
