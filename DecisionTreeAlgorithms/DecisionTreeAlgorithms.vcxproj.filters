@@ -13,57 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Исходные файлы\DecisionTree">
-      <UniqueIdentifier>{a46a18ab-ff1a-4191-baef-beadfef1a60d}</UniqueIdentifier>
+    <Filter Include="Файлы заголовков\DecisionTrees">
+      <UniqueIdentifier>{340dc88b-9bab-4727-8bac-e7429decb222}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\DecisionTree">
+    <Filter Include="Файлы заголовков\DecisionTrees\DecisionTree">
       <UniqueIdentifier>{d0e8acef-5423-4183-b149-83b167f35aa4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\DTBuildAlgorithms">
-      <UniqueIdentifier>{4d55ab0a-8b12-4d3c-a77c-051da2def9f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы заголовков\DTBuildAlgorithms">
+    <Filter Include="Файлы заголовков\DecisionTrees\DTBuildAlgorithms">
       <UniqueIdentifier>{837433fa-8128-4a3c-a9ea-285432d71196}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\DecisionTrees">
+      <UniqueIdentifier>{1aa041a1-f7df-477d-9504-d323c9401f0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\DecisionTrees\DecisionTree">
+      <UniqueIdentifier>{a46a18ab-ff1a-4191-baef-beadfef1a60d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\DecisionTrees\DTBuildAlgorithms">
+      <UniqueIdentifier>{4d55ab0a-8b12-4d3c-a77c-051da2def9f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DTDataset.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>Файлы заголовков\DecisionTree</Filter>
+      <Filter>Файлы заголовков\DecisionTrees\DecisionTree</Filter>
     </ClInclude>
     <ClInclude Include="DecisionNode.h">
-      <Filter>Файлы заголовков\DecisionTree</Filter>
+      <Filter>Файлы заголовков\DecisionTrees\DecisionTree</Filter>
     </ClInclude>
     <ClInclude Include="LeafNode.h">
-      <Filter>Файлы заголовков\DecisionTree</Filter>
+      <Filter>Файлы заголовков\DecisionTrees\DecisionTree</Filter>
     </ClInclude>
     <ClInclude Include="DecisionTree.h">
-      <Filter>Файлы заголовков\DecisionTree</Filter>
+      <Filter>Файлы заголовков\DecisionTrees\DecisionTree</Filter>
     </ClInclude>
     <ClInclude Include="ID3.h">
-      <Filter>Файлы заголовков\DTBuildAlgorithms</Filter>
+      <Filter>Файлы заголовков\DecisionTrees\DTBuildAlgorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="DTDataset.h">
+      <Filter>Файлы заголовков\DecisionTrees</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DTDataset.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="DecisionNode.cpp">
-      <Filter>Исходные файлы\DecisionTree</Filter>
+      <Filter>Исходные файлы\DecisionTrees\DecisionTree</Filter>
     </ClCompile>
     <ClCompile Include="LeafNode.cpp">
-      <Filter>Исходные файлы\DecisionTree</Filter>
+      <Filter>Исходные файлы\DecisionTrees\DecisionTree</Filter>
     </ClCompile>
     <ClCompile Include="ID3.cpp">
-      <Filter>Исходные файлы\DTBuildAlgorithms</Filter>
+      <Filter>Исходные файлы\DecisionTrees\DTBuildAlgorithms</Filter>
     </ClCompile>
     <ClCompile Include="DecisionTree.cpp">
-      <Filter>Исходные файлы\DecisionTree</Filter>
+      <Filter>Исходные файлы\DecisionTrees\DecisionTree</Filter>
+    </ClCompile>
+    <ClCompile Include="DTDataset.cpp">
+      <Filter>Исходные файлы\DecisionTrees</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
