@@ -1,8 +1,0 @@
-C:/Users/Николай/source/repos/AISystems/build/CMakeFiles/INSTALL.dir
-C:/Users/Николай/source/repos/AISystems/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/Николай/source/repos/AISystems/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/Николай/source/repos/AISystems/build/AISystems/CMakeFiles/AlSystemsCore.dir
-C:/Users/Николай/source/repos/AISystems/build/AISystems/CMakeFiles/AISystems.dir
-C:/Users/Николай/source/repos/AISystems/build/AISystems/CMakeFiles/CopyData.dir
-C:/Users/Николай/source/repos/AISystems/build/AISystems/CMakeFiles/INSTALL.dir
-C:/Users/Николай/source/repos/AISystems/build/AISystems/CMakeFiles/ALL_BUILD.dir
